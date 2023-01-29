@@ -23,11 +23,10 @@ After finishing the inputtag you will have to close it with <code>&lt;/form&gt;<
 The following section will describe how to use the inputtypes correctly.
 
 <ul>
-<li><a href="text_erklärung">Text</a></li>
-<li><a href="radio_erklärung">Radio</a></li>
-<li><a href="checkbox_erklärung">checkbox</a></li>
-<li><a href="submit_erklärung">submit</a></li>
-<li><a href="button_erklärung">button</a></li>
+<li><a href="#text_erklärung">Text</a></li>
+<li><a href="#radio_erklärung">Radio</a></li>
+<li><a href="#checkbox_erklärung">Checkbox</a></li>
+<li><a href="#submit_erklärung">Submit</a></li>
 </ul>
 
 <h2 id="text_erklärung">Text</h2>
@@ -63,7 +62,7 @@ For my example i used two times the tags to get the first and last name of the u
 
 
 
-<h2 id="radio_erklärung">radio</h2>
+<h2 id="radio_erklärung">Radio</h2>
 
 If you want to let the user choose one thing from many than you should use the "radio" <br>
 type in the inputtag. In my example i want the user to choose his favorite programming<br>
@@ -102,8 +101,19 @@ The user can choose only one thing inside the whole form(group).
 The checkbox is kinda similar to the radio type, exept that the user gets the ability to <br>
 check multiple boxes. In the example shown you can see that you can check the boxes <br>
 as much as you like without taking your check away. This is possible with the <br>
-inputtype "checkbox". <br>
+inputtype "checkbox". Like before i will put the box first and then the the labeltag, <br>
+so the box is left of the label.
 
+<xmp>
+  <form>
+    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+    <label for="vehicle1"> I have a bike</label><br>
+    <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+    <label for="vehicle2"> I have a car</label><br>
+    <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+    <label for="vehicle3"> I have a boat</label>
+  </form>
+</xmp>
 
 <br>
 <form>
@@ -118,22 +128,39 @@ inputtype "checkbox". <br>
 
 <h2 id="submit_erklärung">Submit</h2>
 
-<form>
-  <input type="submit" id="suche" name="search">
+The Submit is a special form of the button. It tells the browser to send or sumbit^^ <br>
+the form to the server. To use the button effectivly you would have to combine it <br>
+with other formobjects. Now to give the submit button the right address we have <br>
+to define the action of the form. 
+<br>
+<xmp>
+  <form action="/action_page.php">
+    <label>First Name: </label>
+    <input type="text" id="firstname">
+    <br>
+    <br>
+    <label>Last Name: </label>
+    <input type="text" id="lastname">
+    <br><br>
+    <input type="submit" id="Submit" >
+  </form>
+</xmp>
+
+<br>
+<form action="/action_page.php">
+  <label>First Name: </label>
+  <input type="text" id="firstname">
+  <br>
+  <br>
+  <label>Last Name: </label>
+  <input type="text" id="lastname">
+  <br><br>
+  <input type="submit" id="Submit" >
 </form>
 <br>
 
-<h2 id="button_erklärung">Button</h2>
-
-<form>
-  <input type="button" id="suche" name="search">
-</form>
-
-<form action="https://wiki.selfhtml.org/wiki/Spezial%3ASuche">
-  <label for="suche">Suchbegriff: </label>
-  <input type="text" id="suche" name="search">
-  <button name="fulltext" value="1">Finden</button>
-</form>
+These were 4 types of inputs that are possible, there are much more that you can learn.<br>
+If you want to look it up, check this <a href="https://www.w3schools.com/html/html_form_input_types.asp">Site </a> out
 
 </body>
 
