@@ -2,38 +2,71 @@
 
 window.onload = (event) => {
 
-    var countlist = {
-        Fight_Club: 0 ,
-        DHDR1: 0,
-        DHDR2: 0,
-        DHDR3: 0,
-        It: 0,
-        1917: 0,
-        MyNeighborTotoro: 0,
-        PrincessMononoke: 0
-    }
+    var countlist = {}
+
+    const addCountListener = async () => {
+        console.log("methode wird aufgerufen :D ")
+        try {
+            const data = await fetch("http://localhost:8080/api/movies");
+            const response = await data.json();
+            console.log(response);
+            for (let index = 0; index < response.length; index++) {
+                countlist[response[index].title] = 0
+                document.getElementById(response[index].title).addEventListener("click",() => count(response[index].title))
+                console.log("added event listener ")
+            }
+        } catch (error) {
+            console.log("failed to add Eventlistener -> ", error)
+        }
+    };
+    addCountListener()
 
     function count(film){
         countlist[film]++
         console.log("hello " + film)
         console.log(countlist[film])
+        document.cookie = film + "=" + countlist[film]
+        console.log(getCookie(film))
     }
 
     function evaluate(){
         
+        const addCountListener = async () => {
+            console.log("evaluate methode wird aufgerufen :D ")
+            try {
+                const data = await fetch("http://localhost:8080/api/movies");
+                const response = await data.json();
+                console.log(response);
+                for (let index = 0; index < response.length; index++) {
+                    //countlist[response[index].title] = 0
+                    //document.getElementById(response[index].title).addEventListener("click",() => count(response[index].title))
+                    //console.log("added event listener ")
+                    
+                }
+            } catch (error) {
+                console.log("failed to getCookie -> ", error)
+            }
+        };
+        addCountListener()
+
+
+
     }
 
-    var max
-    var maxName
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
 
-    document.getElementById("Fight_Club").addEventListener("click",() => count("Fight_Club"))
-    document.getElementById("DHDR1").addEventListener("click",() => count("DHDR1"))
-    document.getElementById("DHDR2").addEventListener("click",() => count("DHDR2"))
-    document.getElementById("DHDR3").addEventListener("click",() => count("DHDR3"))
-    document.getElementById("It").addEventListener("click",() => count("It"))
-    document.getElementById("1917").addEventListener("click",() => count("1917"))
-    document.getElementById("MyNeighborTotoro").addEventListener("click",() => count("MyNeighborTotoro"))
-    document.getElementById("PrincessMononoke").addEventListener("click",() => count("PrincessMononoke"))
-
-    
-}  
+}

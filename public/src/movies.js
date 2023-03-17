@@ -7,7 +7,7 @@ const renderOurFavorites = async () => {
         let item = "";
         for (let index = 0; index < response.length; index++) {
             item +=
-                `<div class="movie">
+                `<div class="movie" id="${response[index].title}">
                     <img src="${response[index].image}" alt="${response[index].title}"/>
                     <div class="movie_description">
                         <h3>${response[index].title}</h3>
