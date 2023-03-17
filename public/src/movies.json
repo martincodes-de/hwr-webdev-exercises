@@ -1,0 +1,50 @@
+[
+    {
+        "title": "Fight Club",
+        "short_description": "Fight Club ist ein US-amerikanischer Psychothriller des Regisseurs David Fincher aus dem Jahr 1999 nach dem gleichnamigen Roman von Chuck Palahniuk. -Wikipedia",
+        "description": "",
+        "image": "images/Fight Club.jpg"
+    },
+    {
+        "title": "Der Herr der Ringe I",
+        "short_description": "Der Herr der Ringe: Die Gefährten ist ein neuseeländisch-US-amerikanischer Fantasyfilm und der erste Teil einer dreiteiligen Verfilmung des Romans Der Herr der Ringe von J. R. R. Tolkien. -Wikipedia",
+        "description": "",
+        "image": "images/DHDR1.jpg"
+    },
+    {
+        "title": "Der Herr der Ringe II",
+        "short_description": "Der Herr der Ringe: Die zwei Türme ist ein neuseeländisch-US-amerikanischer Fantasyfilm und der zweite Teil von Peter Jacksons Filmtrilogie, basierend auf dem Roman Der Herr der Ringe von J.R.R. Tolkien. -Wikipedia",
+        "description": "",
+        "image": "images/DHDR2.webp"
+    },
+    {
+        "title": "Der Herr der Ringe III",
+        "short_description": "Der Herr der Ringe: Die Rückkehr des Königs ist ein neuseeländisch-US-amerikanischer Fantasyfilm und nach Die Gefährten und Die zwei Türme der dritte und letzte Teil der Filmtrilogie von Regisseur Peter Jackson auf Basis der Bücher von J. R. R. Tolkien. -Wikipedia",
+        "description": "",
+        "image": "images/DHDR3.jpg"
+    },
+    {
+        "title": "Es",
+        "short_description": "Stephen Kings Es ist ein zweiteiliger Fernseh-Horrorfilm aus dem Jahr 1990, der auf dem Roman Es von Stephen King basiert. -Wikipedia",
+        "description": "",
+        "image": "images/it.jpg"
+    },
+    {
+        "title": "1917",
+        "short_description": "Der Film folgt zwei Soldaten der Britischen Armee, die 1917 als Meldegänger an der Westfront einen dringenden Befehl in die vorderste Linie bringen sollen. -Wikipedia",
+        "description": "",
+        "image": "images/1917.webp"
+    },
+    {
+        "title": "My Neighbor Totoro",
+        "short_description": "Mein Nachbar Totoro (jap. となりのトトロ, Tonari no Totoro) ist ein japanischer Anime-Film aus dem Jahr 1988. Er entstand unter der Regie von Hayao Miyazaki, der auch das Drehbuch schrieb, und wurde von Studio Ghibli produziert. -Wikipedia",
+        "description": "",
+        "image": "images/MyNeighborTotoro.jpg"
+    },
+    {
+        "title": "Princess Mononoke",
+        "short_description": "Prinzessin Mononoke (japanisch もののけ姫 Mononoke Hime, dt. etwa „Dämonenprinzessin“) ist ein japanischer Zeichentrickfilm (Anime) von Hayao Miyazaki und dessen Studio Ghibli aus dem Jahr 1997. -Wikipedia",
+        "description": "",
+        "image": "images/PrincessMononoke.jpg"
+    }
+]
