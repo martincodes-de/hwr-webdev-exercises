@@ -23,7 +23,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
-
+app.get('/api/movies', (req, res) => {
+  var movieJson = require(path.join(__dirname, '/public/src/movies.json'));
+  res.send(movieJson);
+})
 
 //app.use(express.static(__dirname + "/public"));
 //app.use("/", express.static("public"));
