@@ -39,9 +39,28 @@ app.get('/api/movies', (req, res) => {
 //   res.send("Anmeldung erfolgreich");
 // });
 
-app.post("/", (_, res) => {
-  //soll beim Laden jeder Filmseite zugehörige Kommentare darstellen/ausgeben
-});
+
+// var comment = {
+//   Name: userID,
+//   Kommentar: comment
+// }
+// var movies = {
+//   Titel: movietitel,
+//   Comments: comments
+// }
+
+
+
+
+
+
+//window.onload = (event) => {
+//  display_comments();
+//}
+
+app.post("/public/src/movie-page.html", (_,res)=> {
+  display_comments();
+}) 
 
 var Es=[];
 var FightClub = [];
@@ -59,11 +78,18 @@ var titles = {Es, FightClub, neunzenSiebzehn1917, dhdr1, dhdr2, dhdr3, MyNeighbo
 const display_comments = () => {
     let listOfComments = "";
     for(let index = 0; index<=titles.length; index++){
-    titles[index].forEach(comment => { //Es => Var für jede Liste
+    titles[index].forEach(comment => {
+      var currentdate = new Date(); 
+      var datetime = "Last Sync: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
       listOfComments +=
-                `<div class="movie" id="title"">
-                        <h3>$userID</h3> //Get userID of User (idk how)
-                        <p>${comment}</p>
+                `<div class="comment">
+                  <div class="comment_author"><h4>$userID</h4></div>
+                  <div class="comment_text">${comment}</div>
+                  <div class="comment_timestamp">${datetime}</div>
                 </div>`;
     })
     listOfComments += '</div>';
@@ -71,7 +97,7 @@ const display_comments = () => {
   }
 }
 
-function getComment(title){ //title soll Platzhalter
+function getComment(title){
   var comment = document.getElementById("submitButton").value;
   var titleIndex =0;
   switch (title){
@@ -111,22 +137,9 @@ function getComment(title){ //title soll Platzhalter
   default:
     titleIndex = 0;
   }
-
-  titles[titleIndex].push(comment); //Add content to Filmlist => title
+  titles[titleIndex].push(comment); 
   display_comments();
 }
-// var comment = {
-//   Name: userID,
-//   Kommentar: comment
-// }
-// var movies = {
-//   Titel: movietitel,
-//   Comments: comments
-// }
-
-
-
-
 
 //app.use(express.static(__dirname + "/public"));
 //app.use("/", express.static("public"));
