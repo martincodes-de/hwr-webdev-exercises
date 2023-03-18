@@ -28,6 +28,94 @@ app.get('/api/movies', (req, res) => {
   res.send(movieJson);
 })
 
+
+//window.onload = (event) => {
+//  display_comments();
+//}
+
+app.post("/public/src/movie-page.html", (_,res)=> {
+  display_comments();
+}) 
+
+var Es=[];
+var FightClub = [];
+var neunzenSiebzehn1917 = [];
+var dhdr1 = [];
+var dhdr2 = [];
+var dhdr3 = [];
+var MyNeighborTotoro = [];
+var PrincessMononoke = [];
+var DjangoUnchained = [];
+var MazeRunner = [];
+var HowlsMovingCastle = [];
+var titles = {Es, FightClub, neunzenSiebzehn1917, dhdr1, dhdr2, dhdr3, MyNeighborTotoro, PrincessMononoke, DjangoUnchained, MazeRunner, HowlsMovingCastle};
+
+const display_comments = () => {
+    let listOfComments = "";
+    for(let index = 0; index<=titles.length; index++){
+    titles[index].forEach(comment => {
+      var currentdate = new Date(); 
+      var datetime = "Last Sync: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+      listOfComments +=
+                `<div class="comment">
+                  <div class="comment_author"><h4>$userID</h4></div>
+                  <div class="comment_text">${comment}</div>
+                  <div class="comment_timestamp">${datetime}</div>
+                </div>`;
+    })
+    listOfComments += '</div>';
+    comments.innerHTML = list;
+  }
+}
+
+function getComment(title){
+  var comment = document.getElementById("submitButton").value;
+  var titleIndex =0;
+  switch (title){
+  case "Es":
+    titleIndex = 0;
+    break;
+  case "FightClub":
+    titleIndex = 1;
+    break;
+  case "neunzenSiebzehn1917":
+    titleIndex = 2;
+    break;
+  case "dhdr1":
+      titleIndex = 3;
+      break;
+  case "dhdr2":
+      titleIndex = 4;
+      break;
+  case "dhdr3":
+      titleIndex = 5;
+      break;
+  case "MyNeighborTotoro":
+      titleIndex = 6;
+      break;
+  case "PrincessMononoke":
+      titleIndex = 7;
+      break;
+  case "DjangoUnchained":
+    titleIndex = 8;
+    break;
+  case "MazeRunner":
+    titleIndex = 9;
+    break;
+  case "HowlsMovingCastle":
+    titleIndex = 10;
+    break;
+  default:
+    titleIndex = 0;
+  }
+  titles[titleIndex].push(comment); 
+  display_comments();
+}
+
 //app.use(express.static(__dirname + "/public"));
 //app.use("/", express.static("public"));
 
