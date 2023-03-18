@@ -1,9 +1,12 @@
 
 
-window.onload = (event) => {
+window.onload = async (event) => {
 
     var countlist = {}
     var listOfAllMovies = []
+    var mostClickedMovie = "";
+
+    
 
     const addCountListener = async () => {
         console.log("methode wird aufgerufen :D ")
@@ -26,14 +29,13 @@ window.onload = (event) => {
             console.log("failed to add Eventlistener -> ", error)
         }
     };
-    addCountListener()
 
     function count(film){
         countlist[film]++
-        console.log("hello " + film)
-        console.log(countlist[film])
+        console.log("clicked on " + film)
+        console.log("Times it was clicked: " + countlist[film])
         document.cookie = film + "=" + countlist[film]
-        console.log(getCookie(film))
+        console.log("moviecookie clicked times: " + getCookie(film))
         evaluate()
     }
 
@@ -41,22 +43,19 @@ window.onload = (event) => {
         
         var finStr = "";
         var prevMax = 0;
-
+        console.log("evalute wird ausgeführt    :   " + listOfAllMovies.length)
         for (let index = 0; index < listOfAllMovies.length; index++) {
 
             var currentMov = listOfAllMovies[index]
-            if (countlist[currentMov]>=prevMax){
+            if (countlist[currentMov]>=prevMax && countlist[currentMov] != 0){
                 finStr = currentMov
                 prevMax = countlist[currentMov]
                 
             }
+            console.log( index + " .... " + currentMov)
         }
-        setMostClickedMovie(finStr)
-    }
-    
-    function setMostClickedMovie(filmName){
-        //Display new most clicked movie
-        console.log(filmName)
+        mostClickedMovie = finStr
+        renderYourFavorites()
     }
 
     function getCookie(cname) {
@@ -73,5 +72,43 @@ window.onload = (event) => {
           }
         }
         return "";
-    }    
+    }
+
+    const yourFavorites = document.querySelector("#your_favorites .movieArea")
+
+    const renderYourFavorites = async () => {
+    try {
+        const data = await fetch("http://localhost:8080/api/movies");
+        const response = await data.json();
+        console.log(response);
+        let item = `<p> no clicked movies yet </p>`;
+        for (let index = 0; index < response.length; index++) {
+            if(response[index].title == mostClickedMovie){
+            item =
+                `<div class="movie" id="${response[index].title}">
+                    <img src="${response[index].image}" alt="${response[index].title}"/>
+                    <div class="movie_description">
+                        <h3>${response[index].title}</h3>
+                        <p>${response[index].short_description}</p>
+                        <a href="" class="like_link">❤️ Like This</a>
+                    </div>
+                </div>`;
+            }
+        }
+        yourFavorites.innerHTML = item;
+    } catch (error) {
+        console.log("your favorites error ->", error)
+    }
+    };
+
+
+    await addCountListener();
+    console.log(countlist)
+    evaluate();
+    console.log(mostClickedMovie)
+    renderYourFavorites();
+
+
+
+
 }

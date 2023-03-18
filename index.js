@@ -8,25 +8,50 @@ const path = require('path');
 const app = express();
 
 const users = [];
+var userID = undefined;
 
 app.use(cookieParser());
+
 app.get("/", (req, res) => {
   app.use("/", express.static("public"));
-  if(req.users === undefined) {
-    console.log("neuer User wurde erstellt")
-    const userID = Math.floor(Math.random() * 10000);
-    users.push(userID);
-    res.cookie("UserID", userID, {maxAge: 60*1000*60*60});
-    console.log(req.users);
+  if(req.cookies.userID === undefined){
+    console.log("neuer User wird erstellt")
+    userID = Math.floor(Math.random() * 10000);
+    users.push(userID); 
+    res.cookie("new userID",userID)
   }
   console.log(users);
+  console.log("after if", userID);
   res.sendFile(path.join(__dirname, '/public/index.html'));
 });
+
+
 
 app.get('/api/movies', (req, res) => {
   var movieJson = require(path.join(__dirname, '/public/src/movies.json'));
   res.send(movieJson);
-})
+});
+
+//Denis eingefügter shit :D
+// app.get("/anmelden", (_, res) => {
+//   res.cookie("keks_z", 1, { maxAge: 120000 });
+//   console.log("cookie da :D")
+//   res.send("Anmeldung erfolgreich");
+// });
+
+
+// var comment = {
+//   Name: userID,
+//   Kommentar: comment
+// }
+// var movies = {
+//   Titel: movietitel,
+//   Comments: comments
+// }
+
+
+
+
 
 
 //window.onload = (event) => {
