@@ -14,14 +14,14 @@ app.use(cookieParser());
 
 app.get("/", (req, res) => {
   app.use("/", express.static("public"));
+  //res.cookie(userID);
   if(req.cookies.userID === undefined){
     console.log("neuer User wird erstellt")
     userID = Math.floor(Math.random() * 10000);
     users.push(userID); 
-    res.cookie("new userID",userID)
+    res.cookie("userID",userID)
   }
   console.log(users);
-  console.log("after if", userID);
   res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
@@ -102,10 +102,10 @@ function getComment(title){ //title soll Platzhalter
   case "DjangoUnchained":
     titleIndex = 8;
     break;
-  case "HowlsMovingCastle":
+  case "MazeRunner":
     titleIndex = 9;
     break;
-  case "MazeRunner":
+  case "HowlsMovingCastle":
     titleIndex = 10;
     break;
   default:
