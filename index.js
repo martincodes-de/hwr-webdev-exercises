@@ -8,25 +8,125 @@ const path = require('path');
 const app = express();
 
 const users = [];
+var userID = undefined;
 
 app.use(cookieParser());
+
 app.get("/", (req, res) => {
   app.use("/", express.static("public"));
-  if(req.users === undefined) {
-    console.log("neuer User wurde erstellt")
-    const userID = Math.floor(Math.random() * 10000);
-    users.push(userID);
-    res.cookie("UserID", userID, {maxAge: 60*1000*60*60});
-    console.log(req.users);
+  if(req.cookies.userID === undefined){
+    console.log("neuer User wird erstellt")
+    userID = Math.floor(Math.random() * 10000);
+    users.push(userID); 
+    res.cookie("new userID",userID)
   }
   console.log(users);
+  console.log("after if", userID);
   res.sendFile(path.join(__dirname, '/public/index.html'));
 });
+
+
 
 app.get('/api/movies', (req, res) => {
   var movieJson = require(path.join(__dirname, '/public/src/movies.json'));
   res.send(movieJson);
-})
+});
+
+//Denis eingefügter shit :D
+// app.get("/anmelden", (_, res) => {
+//   res.cookie("keks_z", 1, { maxAge: 120000 });
+//   console.log("cookie da :D")
+//   res.send("Anmeldung erfolgreich");
+// });
+
+app.post("/", (_, res) => {
+  //soll beim Laden jeder Filmseite zugehörige Kommentare darstellen/ausgeben
+});
+
+var Es=[];
+var FightClub = [];
+var neunzenSiebzehn1917 = [];
+var dhdr1 = [];
+var dhdr2 = [];
+var dhdr3 = [];
+var MyNeighborTotoro = [];
+var PrincessMononoke = [];
+var DjangoUnchained = [];
+var MazeRunner = [];
+var HowlsMovingCastle = [];
+var titles = {Es, FightClub, neunzenSiebzehn1917, dhdr1, dhdr2, dhdr3, MyNeighborTotoro, PrincessMononoke, DjangoUnchained, MazeRunner, HowlsMovingCastle};
+
+const display_comments = () => {
+    let listOfComments = "";
+    for(let index = 0; index<=titles.length; index++){
+    titles[index].forEach(comment => { //Es => Var für jede Liste
+      listOfComments +=
+                `<div class="movie" id="title"">
+                        <h3>$userID</h3> //Get userID of User (idk how)
+                        <p>${comment}</p>
+                </div>`;
+    })
+    listOfComments += '</div>';
+    comments.innerHTML = list;
+  }
+}
+
+function getComment(title){ //title soll Platzhalter
+  var comment = document.getElementById("submitButton").value;
+  var titleIndex =0;
+  switch (title){
+  case "Es":
+    titleIndex = 0;
+    break;
+  case "FightClub":
+    titleIndex = 1;
+    break;
+  case "neunzenSiebzehn1917":
+    titleIndex = 2;
+    break;
+  case "dhdr1":
+      titleIndex = 3;
+      break;
+  case "dhdr2":
+      titleIndex = 4;
+      break;
+  case "dhdr3":
+      titleIndex = 5;
+      break;
+  case "MyNeighborTotoro":
+      titleIndex = 6;
+      break;
+  case "PrincessMononoke":
+      titleIndex = 7;
+      break;
+  case "DjangoUnchained":
+    titleIndex = 8;
+    break;
+  case "HowlsMovingCastle":
+    titleIndex = 9;
+    break;
+  case "MazeRunner":
+    titleIndex = 10;
+    break;
+  default:
+    titleIndex = 0;
+  }
+
+  titles[titleIndex].push(comment); //Add content to Filmlist => title
+  display_comments();
+}
+// var comment = {
+//   Name: userID,
+//   Kommentar: comment
+// }
+// var movies = {
+//   Titel: movietitel,
+//   Comments: comments
+// }
+
+
+
+
 
 //app.use(express.static(__dirname + "/public"));
 //app.use("/", express.static("public"));

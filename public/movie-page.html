@@ -61,7 +61,10 @@
             <form class="chat_form">
                 <h4>Write a comment:</h4>
                 <textarea class="message" placeholder="Your message..." style="resize: none;"></Textarea>
-                <button type="submit">Send</button>
+                <button type="submit" id="submitButton" value="value" onclick="getComment($Filmtitel)">Send</button>
+            </form>
+            <form>
+              <input type="button" value="cookie setzten" onclick="document.cookie = `test=${Math.floor(Math.random() * 10000)}`">
             </form>
           </div>
     </div>

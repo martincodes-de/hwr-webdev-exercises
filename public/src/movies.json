@@ -46,5 +46,17 @@
         "short_description": "Prinzessin Mononoke (japanisch もののけ姫 Mononoke Hime, dt. etwa „Dämonenprinzessin“) ist ein japanischer Zeichentrickfilm (Anime) von Hayao Miyazaki und dessen Studio Ghibli aus dem Jahr 1997. -Wikipedia",
         "description": "",
         "image": "images/PrincessMononoke.jpg"
+    },
+    {
+        "title": "Howls Moving Castle",
+        "short_description": "Das wandelnde Schloss (jap. ハウルの動く城, Hauru no Ugoku Shiro, dt. „Hauros sich bewegendes Schloss“) ist ein Anime-Film des Studio Ghibli aus dem Jahr 2004. -Wikipedia",
+        "description": "",
+        "image": "images/Howls-Moving_Castle.jpg"
+    },
+    {
+        "title": "Maze Runner",
+        "short_description": "Maze Runner – Die Auserwählten im Labyrinth (Originaltitel: The Maze Runner) ist ein US-amerikanischer Science-Fiction-Film von Wes Ball, der auf dem Buch Die Auserwählten – Im Labyrinth von James Dashner basiert. -Wikipedia",
+        "description": "",
+        "image": "images/Maze-Runner.jpg"
     }
 ]
