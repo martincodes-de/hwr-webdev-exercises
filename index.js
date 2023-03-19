@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
   if(req.cookies.userID === undefined){
     console.log("neuer User wird erstellt")
     userID = Math.floor(Math.random() * 10000);
-    users.push(userID); 
+    users.push(userID);
     res.cookie("userID",userID)
   }
   console.log(users);
@@ -69,87 +69,119 @@ app.get('/movie/:title', (req, res) => {
 //  display_comments();
 //}
 
-app.post("/public/src/movie-page.html", (_,res)=> {
-  display_comments();
-}) 
+var allComments = {};
 
-var Es=[];
-var FightClub = [];
-var neunzenSiebzehn1917 = [];
-var dhdr1 = [];
-var dhdr2 = [];
-var dhdr3 = [];
-var MyNeighborTotoro = [];
-var PrincessMononoke = [];
-var DjangoUnchained = [];
-var MazeRunner = [];
-var HowlsMovingCastle = [];
-var titles = {Es, FightClub, neunzenSiebzehn1917, dhdr1, dhdr2, dhdr3, MyNeighborTotoro, PrincessMononoke, DjangoUnchained, MazeRunner, HowlsMovingCastle};
+var movieJson = require(path.join(__dirname,'/public/src/movies.json'));
+
+movieJson.forEach(movie => {
+    allComments[movie.title] = [];
+})
+
+app.post("/api/comments/postcomment", (req,res) => {
+    console.log("postcomment API was called")
+
+    //console.log(req.body.title);
+    //console.log(req.body.userID);
+    //console.log(req.body.comment);
+    //console.log(req.body);
+    //console.log(req.header);
+
+    var title = req.body.title.toString();
+    var userID = req.body.userID.toString();
+    var comment = req.body.comment.toString();
+
+    console.log("Von: " + title + " UserID: " + userID + " Kommentar der geschrieben wurde: " + comment);
+    console.log(req.body)
+
+    var currentdate = new Date();
+    var datetime = currentdate.getDate() + "/"
+        + (currentdate.getMonth()+1)  + "/"
+        + currentdate.getFullYear() + " - "
+        + currentdate.getHours() + ":"
+        + currentdate.getMinutes();
+    var htmlOfComment = `<div class="comment">
+                  <div class="comment_author"><h4>${userID}</h4></div>
+                  <div class="comment_text">${comment}</div>
+                  <div class="comment_timestamp">${datetime}</div>
+                </div>`;
+    allComments[title].push(htmlOfComment); //html als String abgespeichert
+    //Website und neuen Kommentar laden hinzufügen
+});
+
+app.get("/api/comments/getcomments/:title", (req,res) => {
+    res.send(allComments[req.params.title]);
+})
+
+//app.post("/public/src/movie-page.html", (_,res)=> {
+//  display_comments();
+//})
 
 const display_comments = () => {
     let listOfComments = "";
-    for(let index = 0; index<=titles.length; index++){
-    titles[index].forEach(comment => {
-      var currentdate = new Date(); 
-      var datetime = "Last Sync: " + currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
-                + currentdate.getFullYear() + " @ "  
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
-      listOfComments +=
+    for(let index = 0; index<=listOfTitles.length; index++){
+        listOfTitles[index].forEach(comment => {
+            var currentdate = new Date();
+            var datetime = "Last Sync: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes();
+            listOfComments +=
                 `<div class="comment">
                   <div class="comment_author"><h4>$userID</h4></div>
                   <div class="comment_text">${comment}</div>
                   <div class="comment_timestamp">${datetime}</div>
                 </div>`;
-    })
-    listOfComments += '</div>';
-    comments.innerHTML = list;
-  }
+        })
+        // listOfComments += '</div>';
+        // comments.innerHTML = list;
+        // Das muss in die Listen rein
+        //Inhalt von Listen auf die Webseite bekommen. Wie???
+    }
 }
 
-function getComment(title){
-  var comment = document.getElementById("submitButton").value;
-  var titleIndex =0;
-  switch (title){
-  case "Es":
-    titleIndex = 0;
-    break;
-  case "FightClub":
-    titleIndex = 1;
-    break;
-  case "neunzenSiebzehn1917":
-    titleIndex = 2;
-    break;
-  case "dhdr1":
-      titleIndex = 3;
-      break;
-  case "dhdr2":
-      titleIndex = 4;
-      break;
-  case "dhdr3":
-      titleIndex = 5;
-      break;
-  case "MyNeighborTotoro":
-      titleIndex = 6;
-      break;
-  case "PrincessMononoke":
-      titleIndex = 7;
-      break;
-  case "DjangoUnchained":
-    titleIndex = 8;
-    break;
-  case "MazeRunner":
-    titleIndex = 9;
-    break;
-  case "HowlsMovingCastle":
-    titleIndex = 10;
-    break;
-  default:
-    titleIndex = 0;
-  }
-  titles[titleIndex].push(comment); 
-  display_comments();
+function addComment(title){
+    var comment = document.getElementById("submitButton").value;
+    var titleIndex =0;
+    switch (title){
+        case "Es":
+            titleIndex = 0;
+            break;
+        case "Fight Club":
+            titleIndex = 1;
+            break;
+        case "1917":
+            titleIndex = 2;
+            break;
+        case "dhdr1":
+            titleIndex = 3;
+            break;
+        case "dhdr2":
+            titleIndex = 4;
+            break;
+        case "dhdr3":
+            titleIndex = 5;
+            break;
+        case "My Neighbor Totoro":
+            titleIndex = 6;
+            break;
+        case "Princess Mononoke":
+            titleIndex = 7;
+            break;
+        case "DjangoUnchained":
+            titleIndex = 8;
+            break;
+        case "Maze Runner":
+            titleIndex = 9;
+            break;
+        case "Howls Moving Castle":
+            titleIndex = 10;
+            break;
+        default:
+            titleIndex = 0;
+    }
+    listOfTitles[titleIndex].push(comment);
+    display_comments();
 }
 
 //app.use(express.static(__dirname + "/public"));

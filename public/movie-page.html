@@ -24,10 +24,10 @@
   <body>
     <div id="movie_content">
       <div class="movie_content">
-        
+
       </div>
     </div>
-    <div class="comments">
+    <div class="comments" id="comments">
         <div class="chatbox">
             <h2>Comments</h2>
             <div class="chatlog">
@@ -43,14 +43,10 @@
                 <div class="comment_timestamp">14.03.2023 - 19:37</div>
               </div>
             </div>
-            <form class="chat_form">
+            <form class="chat_form" id="commentForm">
                 <h4>Write a comment:</h4>
-                <textarea class="message" placeholder="Your message..." style="resize: none;"></Textarea>
-                <button type="submit" onclick="getComment(ES)">Send</button>  
-                <button type="submit" id="submitButton" value="value" onclick="getComment($Filmtitel)">Send</button>
-            </form>
-            <form>
-              <input type="button" value="cookie setzten" onclick="document.cookie = `test=${Math.floor(Math.random() * 10000)}`">
+                <textarea class="message" id="contentOfComment" placeholder="Your message..." style="resize: none;"></Textarea>
+                <button id="submitButton" >Send</button>
             </form>
           </div>
     </div>
