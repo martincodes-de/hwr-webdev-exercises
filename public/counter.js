@@ -5,14 +5,13 @@ window.onload = async (event) => {
     var countlist = {}
     var listOfAllMovies = []
     var mostClickedMovie = "";
-
+    var allLikedMovies = [];
 
     const ourFavorites = document.querySelector("#our_favorites .movieArea");
     const renderOurFavorites = async () => {
         try {
             const data = await fetch("http://localhost:8080/api/movies");
             const response = await data.json();
-            console.log(response);
             let item = "";
             for (let index = 0; index < response.length; index++) {
                 item +=
@@ -21,7 +20,7 @@ window.onload = async (event) => {
                         <div class="movie_description">
                             <h3>${response[index].title}</h3>
                             <p>${response[index].short_description}</p>
-                            <a href="" class="like_link">❤️ Like This</a>
+                            <a href="" class="like_link" id="${response[index].title}_likethis" >❤️ Like This</a>
                         </div>
                     </div>`;
             }
@@ -33,27 +32,25 @@ window.onload = async (event) => {
     
 
     const addCountListener = async () => {
-        console.log("Trying to add CountListeners")
         try {
             const data = await fetch("http://localhost:8080/api/movies");
             const response = await data.json();
-            console.log(response);
             for (let index = 0; index < response.length; index++) {
                 if(getCookie(response[index].title) === ""){
                     countlist[response[index].title] = 0
                 }else{
                     countlist[response[index].title] = getCookie(response[index].title)
                 }
-                console.log(response[index].title);
                 document.getElementById(response[index].title).addEventListener("click", () => {
                     count(response[index].title);
-                    console.log("click");
-                    // fetch(new URL("http://localhost:8080/movie/"+ response[index].title))
                     onclick=window.location.href = new URL("http://localhost:8080/movie/"+ response[index].title);
                 });
-                console.log("added event listener ")
                 listOfAllMovies.push(response[index].title)
-                console.log(listOfAllMovies)
+                var titelLikedThis = response[index].title + "_likethis"
+                document.getElementById(titelLikedThis).addEventListener("click", () => {
+                    setLiked(response[index].title);
+                });
+                
             }
         } catch (error) {
             console.log("failed to add Eventlistener -> ", error)
@@ -62,30 +59,37 @@ window.onload = async (event) => {
 
     function count(film){
         countlist[film]++
-        // console.log("clicked on " + film)
-        // console.log("Times it was clicked: " + countlist[film])
         document.cookie = film + "=" + countlist[film]
-        // console.log("moviecookie clicked times: " + getCookie(film))
         evaluate()
     }
 
     function evaluate(){
-        
         var finStr = "";
         var prevMax = 0;
-        console.log("evalute wird ausgeführt    :   " + listOfAllMovies.length)
         for (let index = 0; index < listOfAllMovies.length; index++) {
-
             var currentMov = listOfAllMovies[index]
             if (countlist[currentMov]>=prevMax && countlist[currentMov] != 0){
                 finStr = currentMov
                 prevMax = countlist[currentMov]
-                
             }
-            // console.log( index + " .... " + currentMov)
         }
         mostClickedMovie = finStr
         renderYourFavorites()
+    }
+
+    function setLiked(movieTitle){ 
+        var movieLikedJson = {
+            "userID": getCookie("userID"),
+            "title": movieTitle
+        }
+        fetch("http://localhost:8080/api/setLiked", {
+            method:"POST",
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(movieLikedJson)
+        })
+        renderYourLiked();
     }
 
     function getCookie(cname) {
@@ -110,7 +114,6 @@ window.onload = async (event) => {
     try {
         const data = await fetch("http://localhost:8080/api/movies");
         const response = await data.json();
-        console.log(response);
         let item = `<p> no clicked movies yet </p>`;
         for (let index = 0; index < response.length; index++) {
             if(response[index].title == mostClickedMovie){
@@ -120,7 +123,6 @@ window.onload = async (event) => {
                     <div class="movie_description">
                         <h3>${response[index].title}</h3>
                         <p>${response[index].short_description}</p>
-                        <a href="" class="like_link">❤️ Like This</a>
                     </div>
                 </div>`;
             }
@@ -131,14 +133,57 @@ window.onload = async (event) => {
     }
     };
 
+    const yourLiked = document.querySelector("#your_liked .movieArea")
+
+    const renderYourLiked = async () => {
+        try {
+            const data = await fetch("http://localhost:8080/api/movies");
+            const response = await data.json();
+            let item = ``;
+            allLikedMovies.forEach(element =>{
+                for (let index = 0; index < response.length; index++) {
+                    if(response[index].title === element){
+                        item +=
+                        `<div class="movie" id="${response[index].title}">
+                            <img src="${response[index].image}" alt="${response[index].title}"/>
+                            <div class="movie_description">
+                                <h3>${response[index].title}</h3>
+                                <p>${response[index].short_description}</p>
+                                <a href="" class="like_link" id="${response[index].title}_likethis" >❤️ Like This</a>
+                            </div>
+                        </div>`;
+                    }
+                }
+                }
+            )
+            if(item === ``){
+                item = "<p> no favorites movies yet </p>"
+            }
+            yourLiked.innerHTML = item;
+        } catch (error) {
+            console.log("liked favorites error -> ", error)
+        }
+    };
+
+    async function getMovies(){ 
+        const data =  await fetch("http://localhost:8080/api/getliked");
+        var response
+
+        if(data != null){
+            response = await data.json();
+        }else{
+            response = []   
+        }
+        
+        for (let index = 0; index < response.length; index++) {
+            allLikedMovies.push(response[index])
+        }
+    }
+    
     await renderOurFavorites();
     await addCountListener();
-    console.log(countlist)
     evaluate();
-    console.log(mostClickedMovie)
-    renderYourFavorites();
-
-
-
-
+    getMovies();
+    await renderYourLiked();
+    renderYourFavorites();  
 }

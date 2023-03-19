@@ -10,23 +10,49 @@ const app = express();
 const users = [];
 var userID = undefined;
 
+var favorites = {}
+
 app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   app.use("/", express.static("public"));
-  //res.cookie(userID);
   if(req.cookies.userID === undefined){
-    console.log("neuer User wird erstellt")
     userID = Math.floor(Math.random() * 10000);
     users.push(userID);
     res.cookie("userID",userID)
   }
-  console.log(users);
   res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
+app.post('/api/setLiked', (req, res) => {
+  const userID_title = req.cookies.userID.toString()
+  const title = req.body.title.toString()
+  var arrayMovies = []
 
+  if(favorites[userID_title] == undefined){
+    favorites[userID_title] = []
+  }else{
+    arrayMovies = favorites[userID_title]
+  }
+
+  var moviedoesntexists = true;
+  arrayMovies.forEach(element =>{ 
+      if(element == title){
+        moviedoesntexists = false;
+      }
+    }
+  );
+  
+  if(moviedoesntexists == true){
+    arrayMovies.push(title)
+    favorites[userID_title] = arrayMovies
+  }
+});
+
+app.get("/api/getliked", (req, res) => {
+  res.send(JSON.stringify(favorites[req.cookies.userID]))
+});
 
 app.get('/api/movies', (req, res) => {
   var movieJson = require(path.join(__dirname, '/public/src/movies.json'));
@@ -44,32 +70,6 @@ app.get('/movie/:title', (req, res) => {
   res.sendFile(__dirname + '/public/movie-page.html');
 });
 
-//Denis eingefügter shit :D
-// app.get("/anmelden", (_, res) => {
-//   res.cookie("keks_z", 1, { maxAge: 120000 });
-//   console.log("cookie da :D")
-//   res.send("Anmeldung erfolgreich");
-// });
-
-
-// var comment = {
-//   Name: userID,
-//   Kommentar: comment
-// }
-// var movies = {
-//   Titel: movietitel,
-//   Comments: comments
-// }
-
-
-
-
-
-
-//window.onload = (event) => {
-//  display_comments();
-//}
-
 var allComments = {};
 
 var movieJson = require(path.join(__dirname,'/public/src/movies.json'));
@@ -79,20 +79,9 @@ movieJson.forEach(movie => {
 })
 
 app.post("/api/comments/postcomment", (req,res) => {
-    console.log("postcomment API was called")
-
-    //console.log(req.body.title);
-    //console.log(req.body.userID);
-    //console.log(req.body.comment);
-    //console.log(req.body);
-    //console.log(req.header);
-
     var title = req.body.title.toString();
     var userID = req.body.userID.toString();
     var comment = req.body.comment.toString();
-
-    console.log("Von: " + title + " UserID: " + userID + " Kommentar der geschrieben wurde: " + comment);
-    console.log(req.body)
 
     var currentdate = new Date();
     var datetime = currentdate.getDate() + "/"
@@ -105,17 +94,12 @@ app.post("/api/comments/postcomment", (req,res) => {
                   <div class="comment_text">${comment}</div>
                   <div class="comment_timestamp">${datetime}</div>
                 </div>`;
-    allComments[title].push(htmlOfComment); //html als String abgespeichert
-    //Website und neuen Kommentar laden hinzufügen
+    allComments[title].push(htmlOfComment); 
 });
 
 app.get("/api/comments/getcomments/:title", (req,res) => {
     res.send(allComments[req.params.title]);
 })
-
-//app.post("/public/src/movie-page.html", (_,res)=> {
-//  display_comments();
-//})
 
 const display_comments = () => {
     console.log("display comments was executed");
@@ -135,10 +119,6 @@ const display_comments = () => {
                   <div class="comment_timestamp">${datetime}</div>
                 </div>`;
         })
-        // listOfComments += '</div>';
-        // comments.innerHTML = list;
-        // Das muss in die Listen rein
-        //Inhalt von Listen auf die Webseite bekommen. Wie???
     }
 }
 
@@ -185,51 +165,6 @@ function addComment(title){
     listOfTitles[titleIndex].push(comment);
     display_comments();
 }
-
-//app.use(express.static(__dirname + "/public"));
-//app.use("/", express.static("public"));
-
-/*app.get("/src/users", (req, res) => {
-  if(req.cookies.userID !== undefined) {
-    console.log("test");
-    console.log(JSON.stringify(users));
-    console.log(users.includes(req.cookies.userID));
-    res.send(users[req.cookies.userID] || []);
-  } else {
-    console.log("keine cookies");
-  }});
-
-/*
-
-app.get("/users/:id", (req, res) => {
-  const userID = req.params.id;
-  res.send(users.fond((user) => user.id === userID));
-});
-
-  if (req.cookies.userID !== undefined) {
-    if (users.includes(req.cookies.userID)) {
-      res.send("gut");
-    }
-    else {
-      const userID = Math.floor(Math.random() * 10000);
-      res.cookie("UserID", userID, {maxAge: 60*1000*60});
-    }}
-});
-
-app.get(cookieParser());
-app.use((req, _, next) => {
-  console.debug(JSON.stringify(req.cookies));
-  next();
-});*/
-
-
-
-
-
-
-/*app.use(bodyParser.urlencoded({ extended: true}));
-app.use(bodyParser.json());
-*/
 
 app.listen(8080);
 
