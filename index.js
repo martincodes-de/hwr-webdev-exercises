@@ -2,7 +2,7 @@
 //wenn der User keine ID hat, kann dieser nicht auf die users.html zugreifen -> muss sich erstmal eine ID holen
 const express = require("express");
 const { v4: uuid } = require("uuid");
-//const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const path = require('path');
 const app = express();
@@ -11,6 +11,7 @@ const users = [];
 var userID = undefined;
 
 app.use(cookieParser());
+app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   app.use("/", express.static("public"));
@@ -117,6 +118,7 @@ app.get("/api/comments/getcomments/:title", (req,res) => {
 //})
 
 const display_comments = () => {
+    console.log("display comments was executed");
     let listOfComments = "";
     for(let index = 0; index<=listOfTitles.length; index++){
         listOfTitles[index].forEach(comment => {
