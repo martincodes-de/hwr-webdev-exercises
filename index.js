@@ -32,6 +32,17 @@ app.get('/api/movies', (req, res) => {
   res.send(movieJson);
 });
 
+app.get('/movie/:title', (req, res) => {
+  var movieList = require(path.join(__dirname, '/public/src/movies.json'));
+  var movie = {};
+  for (let index = 0; index < movieList.length; index++) {
+    if (movieList[index].title == req.params.title) {
+      movie = movieList[index];
+    }
+  }
+  res.sendFile(__dirname + '/public/movie-page.html');
+});
+
 //Denis eingefügter shit :D
 // app.get("/anmelden", (_, res) => {
 //   res.cookie("keks_z", 1, { maxAge: 120000 });
